@@ -58,7 +58,12 @@ module.exports.getMovieById = function (id, callback) {
 module.exports.updateMovie = function (id, movieObj, options,callback) {
     var query = { _id: id };
     var update = {
-        plot: movieObj.plot
+        plot: movieObj.plot,
+        producers: movieObj.producers,
+        name: movieObj.name,
+        actors: movieObj.actors,
+        yearOfRelease: movieObj.yearOfRelease,
+
     }
     Movie.findOneAndUpdate(query, update,options, callback);
 }

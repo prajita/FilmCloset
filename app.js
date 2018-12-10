@@ -73,5 +73,16 @@ app.post('/api/actors', function (req, res) {
 });
 
 
+app.put('/api/actors/:_id', function (req, res) {
+    Actor.updateActor(req.params._id, req.body, {}, function (err, actor) {
+        if (err) {
+            throw err;
+        } else {
+            res.json(actor)
+        }
+    })
+});
+
+
 app.listen(3000);
 console.log('running on port 3000....');
