@@ -3,6 +3,7 @@ var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 Movie = require('./models/Movie');
 Actor = require('./models/Actor');
+const port  = process.env.PORT || 3001;
 
 mongoose.connect('mongodb://localhost/FilmCloset', { useNewUrlParser: true });
 var db = mongoose.connection;
@@ -84,5 +85,5 @@ app.put('/api/actors/:_id', function (req, res) {
 });
 
 
-app.listen(3000);
-console.log('running on port 3000....');
+app.listen(port);
+console.log('running on port 3001....');
