@@ -4,7 +4,7 @@ var mongoose = require('mongoose');
 Movie = require('./models/Movie');
 Actor = require('./models/Actor');
 
-mongoose.connect('mongodb://localhost/FilmCloset', { useNewUrlParser: true });
+mongoose.connect('mongodb://prajita:mamon1992@ds131954.mlab.com:31954/film-closet', { useNewUrlParser: true });
 var db = mongoose.connection;
 
 var app = express();

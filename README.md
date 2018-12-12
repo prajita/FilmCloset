@@ -1,4 +1,10 @@
 
+--connect to mondb cloud--
+mlab
+mongodb://<dbuser>:<dbpassword>@ds131954.mlab.com:31954/film-closet
+'mongodb://prajita:mamon1992@ds131954.mlab.com:31954/film-closet'
+--connect to mondb local--
+mongodb://localhost/FilmCloset
 --sample data--
 
 db.Actors.insert(
