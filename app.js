@@ -58,7 +58,7 @@ app.get('/api/actors', function (req, res) {
         if (err) {
             throw err;
         }
-        res.json(actors)
+        res.send(actors)
 
     })
 });
