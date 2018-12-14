@@ -6,8 +6,7 @@ Movie = require('./models/Movie');
 Actor = require('./models/Actor');
 Producer = require('./models/Producer');
 var multer = require('multer');
-
-
+const port  = process.env.PORT || 3001;
 
 mongoose.connect('mongodb://prajita:mamon1992@ds131954.mlab.com:31954/film-closet', { useNewUrlParser: true });
 var db = mongoose.connection;
@@ -93,7 +92,6 @@ app.get('/api/actors', async function (req, res) {
         if (err) {
             throw err;
         }
-        // res.header("Access-Control-Allow-Origin", "*");
         res.send(actors);
 
     })
@@ -173,5 +171,5 @@ app.put('/api/producers/:_id', async function (req, res) {
 });
 
 
-app.listen(3000);
-console.log('running on port 3000....');
+app.listen(port);
+console.log('running on port 3001....');
