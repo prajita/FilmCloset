@@ -6,25 +6,13 @@ var movieSchema = mongoose.Schema({
         required: true
     },
     actors: [{
-        id: {
-            type: String,
-            required: true
-        },
-        name: {
-            type: String,
-            required: true
-        }
+        type: String,
+        required: true
     }
     ],
     producers: [{
-        id: {
-            type: String,
-            required: true
-        },
-        name: {
-            type: String,
-            required: true
-        }
+        type: String,
+        required: true
     }
     ],
     poster: {
@@ -55,7 +43,7 @@ module.exports.addMovie = function (movieObj, callback) {
 module.exports.getMovieById = function (id, callback) {
     Movie.findById(id, callback);
 }
-module.exports.updateMovie = function (id, movieObj, options,callback) {
+module.exports.updateMovie = function (id, movieObj, options, callback) {
     var query = { _id: id };
     var update = {
         plot: movieObj.plot,
@@ -65,7 +53,7 @@ module.exports.updateMovie = function (id, movieObj, options,callback) {
         yearOfRelease: movieObj.yearOfRelease,
 
     }
-    Movie.findOneAndUpdate(query, update,options, callback);
+    Movie.findOneAndUpdate(query, update, options, callback);
 }
 
 
