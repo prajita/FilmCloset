@@ -3,15 +3,11 @@ var mongoose = require('mongoose');
 var ImageFileSchema = mongoose.Schema({
     unique_id: {
         type: String,
-        required: true
+        required: false
     },
     Post_image: {
         type: String,
-        required: true
-    },
-    Post_title: {
-        type: String,
-        required: true
+        required: false
     }
 })
 var ImageInp = mongoose.model('ImageInp', ImageFileSchema, 'ImageFile');

@@ -5,75 +5,59 @@ var cors = require('cors');
 Movie = require('./models/Movie');
 Actor = require('./models/Actor');
 Producer = require('./models/Producer');
+ImageInp =  require('./models/ImageFile');
 var multer = require('multer');
 const path = require("path");
-const port  = process.env.PORT || 3000;
+const port = process.env.PORT || 3000;
 
 mongoose.connect('mongodb://prajita:mamon1992@ds131954.mlab.com:31954/film-closet', { useNewUrlParser: true });
 var db = mongoose.connection;
 var app = express();
 app.use(bodyParser.json());
 app.use(cors());
-app.use(express.static('uploads'));
-app.use(bodyParser.urlencoded({ extended : true }));
-//multer
-//to create a storage which says where and how the files/images should be saved
-var Storage = multer.diskStorage({
-    destination: "./Images",
-    filename: function (req, file, callback) {
-        callback(null, "IMAGE" + "_" + Date.now() + "_" + path.extname((file.filename)));
+var upload = multer({
+    storage: multer.diskStorage({
+
+        destination: function (req, file, callback) { callback(null, './uploads'); },
+        filename: function (req, file, callback) {
+            callback(null, (file.originalname));
+        }
+
+    }),
+    fileFilter: function (req, file, callback) {
+        var ext = path.extname(file.originalname)
+        if (ext !== '.png' && ext !== '.jpg' && ext !== '.gif' && ext !== '.jpeg') {
+            return callback(null, false)
+        }
+        callback(null, true)
     }
 });
 
-//create a multer object 
+app.use(express.static('uploads'));
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 
-var upload = multer({
-    storage: Storage,
-    limits:{fileSize: 5000000  },
-}).single("myImage");
 
-//apis
-app.get('/', function (req, res) {
-    res.send('Hello Word!');
-});
 
- const router = express.Router();
-// router.post("/api/movies/image/", 
-//     upload.single("myImage"), (req, res) => {
-//        console.log("Request ---", req.body);
-//       console.log("Request file ---", req.file);//Here you get file.
-//        /*Now do where ever you want to do*/
-//        console.log("response:: ---", res.body);
-
-//           return res.send(200).end()
-//  });
-
-// router.post("/upload", {
-//     upload(req, res, function(err) {
-//        console.log("Request ---", req.body);
-//        console.log("Request file ---", req.file);//Here you get file.
-//        /*Now do where ever you want to do*/
-//        if(!err)
-//           return res.send(200).end();
-//     });
-//  };);
-
-app.post('/upload',  function (req, res) {
-    console.log("req input node::::",req)
-    // upload(req,res,function(err) {
-    //     if (err) {
-    //         console.log(JSON.stringify(err));
-    //         res.status(400).send('fail saving image');
-    //     } else {
-    //         console.log('The filename is ' + JSON.stringify(res));
-    //         res.send(res);
-    //     }
-    // });
+app.post('/upload', upload.any(), (req, res) => {
+    console.log("req.body:::"); //form fields
     console.log(req.body);
-    console.log(req.files);
-   
-});
+    console.log("req.file:::");
+    console.log(req.files); //form files
 
+    var img = new ImageInp({
+        Post_image: req.files[0].filename
+    })
+
+    img.save((err, test) => {
+        if (err) {
+            console.log(err)
+        } else {
+            console.log("successfully saved image")
+        }
+    })
+
+})
 
 //apis for movie
 app.get('/api/movies', async function (req, res) {
@@ -201,3 +185,6 @@ app.put('/api/producers/:_id', async function (req, res) {
 
 app.listen(port);
 console.log('running on port 3000....');
+
+
+
