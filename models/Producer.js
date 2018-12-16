@@ -13,16 +13,11 @@ var ProducerSchema = mongoose.Schema({
         type: String,
         required: true
     },
-    bio: [{
-        movie: {
-            type: String,
+    bio: [
+           { type: String,
             required: true
-        },
-        year: {
-            type: Number,
-            required: true
-        }
-    }]
+           }
+    ]
 })
 var Producer = mongoose.model('Producer', ProducerSchema, 'Producers');
 

@@ -53,7 +53,8 @@ app.post('/upload', upload.any(), (req, res) => {
         if (err) {
             console.log(err)
         } else {
-            console.log("successfully saved image")
+            console.log("successfully saved image");
+            res.send("SucessTest...")
         }
     })
 
@@ -86,6 +87,16 @@ app.put('/api/movies/:_id', async function (req, res) {
             throw err;
         } else {
             res.send(movie);
+        }
+    })
+});
+app.put('/api/actors/update', async function (req, res) {
+    await Actor.updateAllActor(req.body,(err)=>{
+        if (err) {
+            throw err;
+        } else {
+            console.log("send success")
+            res.send("success");
         }
     })
 });

@@ -17,18 +17,8 @@ var actorSchema = mongoose.Schema({
         required: true
     },
     bio: [{
-        movie: {
-            type: String,
-            required: true
-        },
-        role: {
-            type: String,
-            required: true
-        },
-        year: {
-            type: Number,
-            required: true
-        }
+        type: String,
+        required: true
     }]
 })
 var Actor = mongoose.model('Actor', actorSchema, 'Actors');
@@ -42,15 +32,22 @@ module.exports.addActor = function (actorObj, callback) {
     Actor.create(actorObj, callback)
 }
 module.exports.getActorById = function (id, callback) {
-    Actor.findById(id,callback);
+    Actor.findById(id, callback);
 }
-module.exports.updateActor = function (id, actorobj, options,callback) {
+module.exports.updateActor = function (id, actorobj, options, callback) {
     var query = { _id: id };
     var update = {
-        bio: actorObj.bio,
-        isProducer: actorObj.isProducer
+        bio: actorObj.bio
     }
-    Actor.findOneAndUpdate(query, update,options, callback);
+    Actor.findOneAndUpdate(query, update, options, callback);
+}
+module.exports.updateAllActor = function (input, callback) {
+    console.log("update actors for the movie.............",JSON.stringify(input))
+    input.listOfActors.map(e => {
+         Actor.updateOne({name: e.name},{ $push: {bio: input.movie}  },callback);
+    });
+    
+
 }
 
-//{name: "Jonny Depp",sex: "Male",dob: "09-23-1990",isProducer: true, bio: [{movie: "Pirates of the Caribbean: On Stranger Tides",role: "Jack Sparrow",year: 2011},{movie: "Alice in Wonderland",role: "Mad Hatter",year: 2010}]}
+//{name: "Jonny Depp",sex: "Male",dob: "09-23-1990",isProducer: true, bio: [ "Pirates of the Caribbean: On Stranger Tides", "Alice in Wonderland"]}
