@@ -42,11 +42,12 @@ module.exports.updateActor = function (id, actorobj, options, callback) {
     }
     Actor.findOneAndUpdate(query, update, options, callback);
 }
-module.exports.updateAllActor = function (input) {
+module.exports.updateAllActor = function (input,cb) {
     console.log("update actors for the movie.............",JSON.stringify(input))
     input.listOfActors.map(e => {
          Actor.updateOne({name: e.name},{ $push: {bio: input.movie}  });
     });
+    cb();
     
 
 }
