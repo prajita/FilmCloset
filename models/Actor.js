@@ -1,4 +1,5 @@
 var mongoose = require('mongoose');
+var async = require('async');
 var actorSchema = mongoose.Schema({
     name: {
         type: String,
@@ -46,6 +47,21 @@ module.exports.updateAllActor = function (input, callback) {
     input.listOfActors.map(e => {
          Actor.updateOne({name: e.name},{ $push: {bio: input.movie}  },callback);
     });
+    
+
+}
+module.exports.updateAllActorCheck = function (input, callback) {
+    console.log("update actors for the movie.............",JSON.stringify(input))
+    
+    async.mapValues(input.listOfActors, function(item,key,cb){
+    Actor.updateOne({name: e.name},{ $push: {bio: input.movie} ,cb });
+    }, function(err, results) {
+    callback();  
+        
+     
+        
+});
+
     
 
 }
