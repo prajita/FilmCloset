@@ -92,16 +92,7 @@ app.put('/api/movies/:_id', async function (req, res) {
         }
     })
 });
-app.put('/api/actors/update', async function (req, res) {
-    await Actor.updateAllActor(req.body,(err)=>{
-        if (err) {
-            throw err;
-        } else {
-            console.log("send success")
-            res.send("success");
-        }
-    })
-});
+
 app.post('/api/movies', async function (req, res) {
     await Movie.addMovie(req.body, function (err, movie) {
         if (err) {
@@ -134,13 +125,22 @@ app.get('/api/actors/:_id', async function (req, res) {
 app.post('/api/actors', async function (req, res) {
     await Actor.addActor(req.body, function (err, actor) {
         if (err) {
-            throw err;
+            res.send(err)
         } else {
             res.send(actor);
         }
     })
 });
-
+app.put('/api/actors/update', async function (req, res) {
+    await Actor.updateAllActor(req.body,(err)=>{
+        if (err) {
+            res.send(err);
+        } else {
+            console.log("send success")
+            res.send("success");
+        }
+    })
+});
 
 app.put('/api/actors/:_id', function (req, res) {
     Actor.updateActor(req.params._id, req.body, {}, function (err, actor) {
@@ -177,7 +177,7 @@ app.get('/api/producers/:_id', async function (req, res) {
 app.post('/api/producers', async function (req, res) {
     await Producer.addProducer(req.body, function (err, producer) {
         if (err) {
-            throw err;
+            res.send(err);
         } else {
             res.send(producer);
         }
