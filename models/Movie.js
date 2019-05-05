@@ -43,7 +43,7 @@ module.exports.addMovie = function (movieObj, callback) {
 module.exports.getMovieById = function (id, callback) {
     Movie.findById(id, callback);
 }
-module.exports.updateMovie = function (id, movieObj, options, callback) {
+module.exports.updateMovie = async function (id, movieObj, options, cb) {
     var query = { _id: id };
     var update = {
         plot: movieObj.plot,
@@ -53,7 +53,9 @@ module.exports.updateMovie = function (id, movieObj, options, callback) {
         yearOfRelease: movieObj.yearOfRelease,
 
     }
-    Movie.findOneAndUpdate(query, update, options, callback);
+    let data=await Movie.findByIdAndUpdate(query, update, options)
+    cb(data);
+       
 }
 
 

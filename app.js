@@ -82,11 +82,13 @@ app.get('/api/movies/:_id', async function (req, res) {
 });
 
 app.put('/api/movies/:_id', async function (req, res) {
-    await Movie.updateMovie(req.params._id, req.body, {}, (err, movie) => {
-        if (err) {
-            throw err;
-        } else {
+   console.log("request for update movie::")
+    await Movie.updateMovie(req.params._id, req.body, {new:true}, (movie, err) => {
+        if(movie) {
+            console.log("succesfully updated movie")
             res.send(movie);
+        }else {
+            res.send(err);
         }
     })
 });
